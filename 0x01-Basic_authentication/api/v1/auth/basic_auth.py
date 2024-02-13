@@ -66,6 +66,8 @@ class BasicAuth(Auth):
         return user
 
     def current_user(self, request=None) -> TypeVar('User'):
+        """overloads Auth and returns the User instance based
+        on a cookie value"""
         auth_header = self.authorization_header(request)
         base64_header = self.extract_base64_authorization_header(auth_header)
         decoded_header = self.decode_base64_authorization_header(base64_header)
