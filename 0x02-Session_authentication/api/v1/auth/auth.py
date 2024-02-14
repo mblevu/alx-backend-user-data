@@ -28,14 +28,3 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """current user"""
         return None
-    
-    def create_session(self, user_id: str = None) -> str:
-        """creates a Session ID for a user_id"""
-        if user_id is None or not isinstance(user_id, str):
-            return None
-        session_id = super().create_session(user_id)
-        if session_id is None:
-            return None
-        self.user_id_by_session_id[session_id]= user_id
-        return session_id
-
