@@ -9,15 +9,14 @@ import os
 class UserSession(Base):
     """stores user session information"""
     __tablename__ = 'user_sessions'
-    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    user_id = Column(String(60), nullable=False)
     session_id = Column(String(60), nullable=False)
-    user = relationship("User", back_populates="session")
 
     def __init__(self, *args: list, **kwargs: dict):
         """initializes user session"""
         super().__init__(*args, **kwargs)
-        self.session_id = os.getenv('SESSION_ID')
-        self.user_id = os.getenv('USER_ID')
+        self.session_id = kwargs.get('session_id')
+        self.user_id = kwargs.get('user_id')
         if kwargs:
             for key, value in kwargs.items():
                 setattr(self, key, value)
