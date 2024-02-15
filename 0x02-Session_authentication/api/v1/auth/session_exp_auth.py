@@ -15,7 +15,15 @@ class SessionExpAuth(SessionAuth):
 
     def create_session(self, user_id: str = None) -> str:
         """Create session method"""
-        return super().create_session(user_id)
+        session_id = super().create_session(user_id)
+        if session_id is None:
+            return None
+        session_dict = {
+            'user_id': user_id,
+            'created_at': datetime.now()
+        }
+        self.user_id_by_session_id[session_id] = session_dict
+        return session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
         """User id for session id method"""
