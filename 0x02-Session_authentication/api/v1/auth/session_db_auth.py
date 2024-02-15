@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """implement session authentication"""
-from api.v1.auth.auth import Auth
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from models.user import User
-import uuid
 
 
 class SessionDBAuth(SessionExpAuth):

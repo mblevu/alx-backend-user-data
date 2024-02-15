@@ -20,19 +20,3 @@ class Auth:
                 return False
         return True
 
-    def authorization_header(self, request=None) -> str:
-        """authorization header"""
-        if request is None or 'Authorization' not in request.headers:
-            return None
-        return request.headers['Authorization']
-
-    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
-        """current user"""
-        return None
-
-    def session_cookie(self, request=None):
-        """returns a cookie value from a request"""
-        if request is None:
-            return None
-        session_name = os.environ.get('SESSION_NAME')
-        return request.cookies.get(session_name)

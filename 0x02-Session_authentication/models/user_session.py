@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """User session module"""
 from models.base import Base
-from sqlalchemy import Column, String, ForeignKey
-from sqlalchemy.orm import relationship
-import os
+from sqlalchemy import Column, String
 
 
 class UserSession(Base):
