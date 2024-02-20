@@ -8,9 +8,9 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__: str = 'users'
-    id: Column = Column(Integer, primary_key=True)
-    email: Column = Column(String(250), nullable=False)
-    hashed_password: Column = Column(String(250), nullable=False)
-    session_id: Optional[Column] = Column(String(250), nullable=True)
-    reset_token: Optional[Column] = Column(String(250), nullable=True)
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(250), nullable=False)
+    hashed_password = Column(String(250), nullable=False)
+    session_id = Column(String(250), nullable=True)
+    reset_token = Column(String(250), nullable=True)
