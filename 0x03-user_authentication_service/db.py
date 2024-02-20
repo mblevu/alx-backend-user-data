@@ -40,10 +40,22 @@ class DB:
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            if user is None:
-                raise NoResultFound("No user found")
-            return user
-        except InvalidRequestError as e:
-            raise InvalidRequestError("Invalid query arguments") from e
+        """Find a user by the given keyword arguments
+        """
+        user = self._session.query(User).filter_by(**kwargs).one()
+        if user is None:
+            raise NoResultFound
+        if not user:
+            raise InvalidRequestError
+        return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update a user by the given user_id
+        """
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
+        return None
