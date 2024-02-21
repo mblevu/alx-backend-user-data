@@ -36,26 +36,29 @@ class DB:
         """add a new user to db"""
         new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)
-        self._session.commit()
+        user = self._session.query(User).filter_by(email=email).first()
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
         """Find a user by the given keyword arguments
         """
-        user = self._session.query(User).filter_by(**kwargs).one()
-        if user is None:
-            raise NoResultFound
-        if not user:
-            raise InvalidRequestError
-        return user
+        users = self._session.query(User)
+        for key, value in kwargs.items():
+            if key not in User.__dict__:
+                raise InvalidRequestError
+            for user in users:
+                if getattr(user, key) == value:
+                    return user
+        raise NoResultFound
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user by the given user_id
         """
-        user = self.find_user_by(id=user_id)
-        for key, value in kwargs.items():
-            if not hasattr(user, key):
-                raise ValueError
-            setattr(user, key, value)
-        self._session.commit()
-        return None
+        try:
+            user = self._session.query(User).filter_by(id=user_id).first()
+            for key, value in kwargs.items():
+                if key not in user.__dict__:
+                    raise ValueError
+                setattr(user, key, value)
+        except NoResultFound:
+            raise ValueError
