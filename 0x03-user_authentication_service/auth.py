@@ -74,13 +74,14 @@ class Auth:
         self._db.update_user(user_id, session_id=None)
         return None
 
-    def update_password(self, email: str, reset_token: str,
-                        new_password: str) -> None:
-        """update user password"""
+    def update_password(self, reset_token: str,
+                        password: str) -> None:
+        """update a user's password
+        """
         try:
-            user = self._db.find_user_by(email=email, reset_token=reset_token)
+            user = self._db.find_user_by(reset_token=reset_token)
             self._db.update_user(user.id,
-                                 hashed_password=_hash_password(new_password),
+                                 hashed_password=_hash_password(password),
                                  reset_token=None)
         except NoResultFound:
             raise ValueError
