@@ -89,7 +89,7 @@ def get_reset_password_token() -> str:
         token = AUTH.get_reset_password_token(email)
         return jsonify({"email": email, "reset_token": token}), 200
     except ValueError:
-        return jsonify({"message": "email not registered"}), 400
+        return jsonify({"message": "email not registered"}), 403
 
 
 if __name__ == "__main__":
